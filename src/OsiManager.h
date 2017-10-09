@@ -15,7 +15,6 @@
 #include "highgui.h"
 #include "OsiEye.h"
 
-
 namespace osiris
 {
 
@@ -34,35 +33,39 @@ namespace osiris
         * Initialize all parameters to default values.
         * @see initConfiguration()
         */
-        OsiManager ( ) ;
+        OsiManager(std::string input_dir, std::string output_dir);
 
         /** Default destructor.
         * Release matrix containing the application points.\n
         * Release the bank of Gabor Filters.
         */
-        ~OsiManager ( ) ;
+        ~OsiManager();
 
         /** Load configuration from a text file.
         * @param rFilename The relative path to the filename (relative to the executable)
         * @return void
         * @see showConfiguration()
         */
-        void loadConfiguration ( const std::string & rFilename = "configuration.ini" ) ;
+        //void loadConfiguration ( const std::string & rFilename = "configuration.ini" ) ;
 
         /** Show configuration in prompt command.
         * @see initConfiguration()
         * @see loadConfiguration()
         */
-        void showConfiguration ( ) ;
+        //void showConfiguration ( ) ;
 
         /** Run osiris according to the configuration.
         * Build the eyes and process them as requested by the configuration file.
         * @see processOneEye()
         */
-        void run ( ) ;
+        //void run ( ) ;
 
+		void process(std::string filename);
+		float match(std::string filename1, std::string filename2);
 
     private :
+		std::string mInputDir;
+		std::string mOutputDir;
 
         // Commands
         bool mProcessSegmentation ;
@@ -115,9 +118,6 @@ namespace osiris
         std::map<std::string,int*> mMapInt ;
         std::map<std::string,std::string*> mMapString ;
 
-
-
-
         // Private methods
         //////////////////
 
@@ -147,7 +147,7 @@ namespace osiris
         * on two columns of names. For other process (segmentation, normalization,
         * encoding), it is more readable to present only one column.
         */
-        void loadListOfImages ( ) ;
+        //void loadListOfImages ( ) ;
 
         /** Load the Gabor filters.
         * The coefficient of Gabor filters are stored in a textfile
@@ -170,7 +170,10 @@ namespace osiris
         * @return void
         * @see OsiEye
         */
-        void processOneEye ( const std::string & rName , OsiEye & rEye ) ;
+        //void processOneEye ( const std::string & rName , OsiEye & rEye ) ;
+		int processEye ( const std::string & rFileName , OsiEye & rEye );
+		int loadEye ( const std::string & rFileName , OsiEye & rEye );
+
 
     } ; // End of class
 

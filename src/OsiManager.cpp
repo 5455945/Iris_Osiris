@@ -23,50 +23,50 @@ namespace osiris
 
 
     // Default constructor
-    OsiManager::OsiManager ( )
+    OsiManager::OsiManager(std::string input_dir, std::string output_dir) :
+		mInputDir(input_dir), mOutputDir(output_dir)
     {
         // Associate lines of configuration file to the attributes
-        mMapBool["Process segmentation"] = &mProcessSegmentation ;
-        mMapBool["Process normalization"] = &mProcessNormalization ;
-        mMapBool["Process encoding"] = &mProcessEncoding ;
-        mMapBool["Process matching"] = &mProcessMatching ;
-        mMapBool["Use the mask provided by osiris"] = &mUseMask ;
-        mMapString["List of images"] = &mFilenameListOfImages ;
-        mMapString["Load original images"] = &mInputDirOriginalImages ;
-        mMapString["Load parameters"] = &mInputDirParameters ;
-        mMapString["Load masks"] = &mInputDirMasks ;
-        mMapString["Load normalized images"] = &mInputDirNormalizedImages ;
-        mMapString["Load normalized masks"] = &mInputDirNormalizedMasks ;
-        mMapString["Load iris codes"] = &mInputDirIrisCodes ;
-        mMapString["Save segmented images"] = &mOutputDirSegmentedImages ;
-        mMapString["Save contours parameters"] = &mOutputDirParameters ;
-        mMapString["Save masks of iris"] = &mOutputDirMasks ;
-        mMapString["Save normalized images"] = &mOutputDirNormalizedImages ;
-        mMapString["Save normalized masks"] = &mOutputDirNormalizedMasks ;
-        mMapString["Save iris codes"] = &mOutputDirIrisCodes ;
-        mMapString["Save matching scores"] = &mOutputFileMatchingScores ;
-        mMapInt["Minimum diameter for pupil"] = &mMinPupilDiameter ;
-        mMapInt["Maximum diameter for pupil"] = &mMaxPupilDiameter ;
-        mMapInt["Minimum diameter for iris"] = &mMinIrisDiameter ;
-        mMapInt["Maximum diameter for iris"] = &mMaxIrisDiameter ;
-        mMapInt["Width of normalized image"] = &mWidthOfNormalizedIris ;
-        mMapInt["Height of normalized image"] = &mHeightOfNormalizedIris ;
-        mMapString["Gabor filters"] = &mFilenameGaborFilters ;
-        mMapString["Application points"] = &mFilenameApplicationPoints ;
-        mMapString["Suffix for segmented images"] = &mSuffixSegmentedImages ;
-        mMapString["Suffix for parameters"] = &mSuffixParameters ;
-        mMapString["Suffix for masks of iris"] = &mSuffixMasks ;
-        mMapString["Suffix for normalized images"] = &mSuffixNormalizedImages ;
-        mMapString["Suffix for normalized masks"] = &mSuffixNormalizedMasks ;
-        mMapString["Suffix for iris codes"] = &mSuffixIrisCodes ;
+        //mMapBool["Process segmentation"] = &mProcessSegmentation ;
+        //mMapBool["Process normalization"] = &mProcessNormalization ;
+        //mMapBool["Process encoding"] = &mProcessEncoding ;
+        //mMapBool["Process matching"] = &mProcessMatching ;
+        //mMapBool["Use the mask provided by osiris"] = &mUseMask ;
+        //mMapString["List of images"] = &mFilenameListOfImages ;
+        //mMapString["Load original images"] = &mInputDirOriginalImages ;
+        //mMapString["Load parameters"] = &mInputDirParameters ;
+        //mMapString["Load masks"] = &mInputDirMasks ;
+        //mMapString["Load normalized images"] = &mInputDirNormalizedImages ;
+        //mMapString["Load normalized masks"] = &mInputDirNormalizedMasks ;
+        //mMapString["Load iris codes"] = &mInputDirIrisCodes ;
+        //mMapString["Save segmented images"] = &mOutputDirSegmentedImages ;
+        //mMapString["Save contours parameters"] = &mOutputDirParameters ;
+        //mMapString["Save masks of iris"] = &mOutputDirMasks ;
+        //mMapString["Save normalized images"] = &mOutputDirNormalizedImages ;
+        //mMapString["Save normalized masks"] = &mOutputDirNormalizedMasks ;
+        //mMapString["Save iris codes"] = &mOutputDirIrisCodes ;
+        //mMapString["Save matching scores"] = &mOutputFileMatchingScores ;
+        //mMapInt["Minimum diameter for pupil"] = &mMinPupilDiameter ;
+        //mMapInt["Maximum diameter for pupil"] = &mMaxPupilDiameter ;
+        //mMapInt["Minimum diameter for iris"] = &mMinIrisDiameter ;
+        //mMapInt["Maximum diameter for iris"] = &mMaxIrisDiameter ;
+        //mMapInt["Width of normalized image"] = &mWidthOfNormalizedIris ;
+        //mMapInt["Height of normalized image"] = &mHeightOfNormalizedIris ;
+        //mMapString["Gabor filters"] = &mFilenameGaborFilters ;
+        //mMapString["Application points"] = &mFilenameApplicationPoints ;
+        //mMapString["Suffix for segmented images"] = &mSuffixSegmentedImages ;
+        //mMapString["Suffix for parameters"] = &mSuffixParameters ;
+        //mMapString["Suffix for masks of iris"] = &mSuffixMasks ;
+        //mMapString["Suffix for normalized images"] = &mSuffixNormalizedImages ;
+        //mMapString["Suffix for normalized masks"] = &mSuffixNormalizedMasks ;
+        //mMapString["Suffix for iris codes"] = &mSuffixIrisCodes ;
 
         // Initialize all parameters
-        initConfiguration() ;        
+        initConfiguration() ;   
+
+		loadGaborFilters() ;
+		loadApplicationPoints() ;
     }
-
-
-
-
 
     // Default destructor
     OsiManager::~OsiManager ( )
@@ -84,18 +84,6 @@ namespace osiris
         }
     }
 
-
-
-
-
-
-
-
-    // OPERATORS
-    ////////////
-
-
-
     // Initialize all configuration parameters
     void OsiManager::initConfiguration ( )
     {
@@ -109,31 +97,31 @@ namespace osiris
         // Inputs
         mListOfImages.clear() ;
         mFilenameListOfImages = "" ;
-        mInputDirOriginalImages = "" ;
+        mInputDirOriginalImages = mInputDir + "/SourceImage/" ;
         mInputDirMasks = "" ;
         mInputDirParameters = "" ;
         mInputDirNormalizedImages = "" ;
-        mInputDirNormalizedMasks = "" ;
-        mInputDirIrisCodes = "" ;
+        mInputDirNormalizedMasks = mInputDir + "/NormalizedMasks/" ;
+        mInputDirIrisCodes = mInputDir + "/IrisCodes/" ;
 
         // Outputs
-        mOutputDirSegmentedImages = "" ;
-        mOutputDirParameters = "" ;
-        mOutputDirMasks = "" ;
-        mOutputDirNormalizedImages = "" ;
-        mOutputDirNormalizedMasks = "" ;
-        mOutputDirIrisCodes = "" ;
+        mOutputDirSegmentedImages = mOutputDir + "/SegmentedImages/" ;
+        mOutputDirParameters = mOutputDir + "/CircleParameters/" ;
+        mOutputDirMasks = mOutputDir + "/Masks/" ;
+        mOutputDirNormalizedImages = mOutputDir + "/NormalizedImages/" ;
+        mOutputDirNormalizedMasks = mOutputDir + "/NormalizedMasks/" ;
+        mOutputDirIrisCodes = mOutputDir + "/IrisCodes/" ;
         mOutputFileMatchingScores = "" ;
 
         // Parameters
-        mMinPupilDiameter = 21 ;
-        mMaxPupilDiameter = 91 ;
-        mMinIrisDiameter = 99 ;
-        mMaxIrisDiameter = 399 ;
+        mMinPupilDiameter = 50 ;
+        mMaxPupilDiameter = 160 ;
+        mMinIrisDiameter = 160 ;
+        mMaxIrisDiameter = 280 ;
         mWidthOfNormalizedIris = 512 ;
         mHeightOfNormalizedIris = 64 ;
-        mFilenameGaborFilters = "./filters.txt" ;
-        mFilenameApplicationPoints = "./points.txt" ;
+        mFilenameGaborFilters = mInputDir + "/filters.txt" ;
+        mFilenameApplicationPoints = mInputDir + "/points.txt" ;
         mGaborFilters.clear() ;
         mpApplicationPoints = 0 ;
 
@@ -146,216 +134,208 @@ namespace osiris
         mSuffixIrisCodes = "_code.bmp" ;
     }
 
-
-
-
-
-
-
-
-
     // Load the configuration from a textfile (ini)
-    void OsiManager::loadConfiguration ( const string & rFilename )
-    {
-        // Open the file
-        ifstream file(rFilename.c_str(),ifstream::in) ;
-        
-        if ( ! file.good() )
-            throw runtime_error("Cannot read configuration file " + rFilename ) ;
+    //void OsiManager::loadConfiguration ( const string & rFilename )
+    //{
+    //    // Open the file
+    //    ifstream file(rFilename.c_str(),ifstream::in) ;
+    //    
+    //    if ( ! file.good() )
+    //        throw runtime_error("Cannot read configuration file " + rFilename ) ;
 
-        // Some string functions
-        OsiStringUtils osu ;
+    //    // Some string functions
+    //    OsiStringUtils osu ;
 
-        // Loop on lines
-        while ( file.good() && ! file.eof() )
-        {
-            // Get the new line
-            string line ;
-            getline(file,line) ;
+    //    // Loop on lines
+    //    while ( file.good() && ! file.eof() )
+    //    {
+    //        // Get the new line
+    //        string line ;
+    //        getline(file,line) ;
 
-            // Filter out comments
-            if ( ! line.empty() )
-            {
-                int pos = line.find('#') ;
-                if ( pos != string::npos )
-                    line = line.substr(0,pos) ;
-            }
+    //        // Filter out comments
+    //        if ( ! line.empty() )
+    //        {
+    //            int pos = line.find('#') ;
+    //            if ( pos != string::npos )
+    //                line = line.substr(0,pos) ;
+    //        }
 
-            // Split line into key and value
-            if ( ! line.empty() )
-            {
-                int pos = line.find("=") ;
+    //        // Split line into key and value
+    //        if ( ! line.empty() )
+    //        {
+    //            int pos = line.find("=") ;
 
-                if ( pos != string::npos )
-                {
-                    // Trim key and value
-                    string key = osu.trim(line.substr(0,pos)) ;
-                    string value = osu.trim(line.substr(pos+1)) ;
+    //            if ( pos != string::npos )
+    //            {
+    //                // Trim key and value
+    //                string key = osu.trim(line.substr(0,pos)) ;
+    //                string value = osu.trim(line.substr(pos+1)) ;
 
-                    if ( ! key.empty() && ! value.empty() )
-                    {
-                        // Option is type bool
-                        if ( mMapBool.find(key) != mMapBool.end() )
-                            *mMapBool[key] = osu.fromString<bool>(value) ;
+    //                if ( ! key.empty() && ! value.empty() )
+    //                {
+    //                    // Option is type bool
+    //                    if ( mMapBool.find(key) != mMapBool.end() )
+    //                        *mMapBool[key] = osu.fromString<bool>(value) ;
 
-                        // Option is type int
-                        else if ( mMapInt.find(key) != mMapInt.end() )
-                            *mMapInt[key] = osu.fromString<int>(value) ;
+    //                    // Option is type int
+    //                    else if ( mMapInt.find(key) != mMapInt.end() )
+    //                        *mMapInt[key] = osu.fromString<int>(value) ;
 
-                        // Option is type string
-                        else if ( mMapString.find(key) != mMapString.end() )
-                            *mMapString[key] = osu.convertSlashes(value) ;
+    //                    // Option is type string
+    //                    else if ( mMapString.find(key) != mMapString.end() )
+    //                        *mMapString[key] = osu.convertSlashes(value) ;
 
-                        // Option is not stored in any mMap
-                        else
-                            cout << "Unknown option in configuration file : " << line << endl ;
-                    }
-                }
-            }
-        }
+    //                    // Option is not stored in any mMap
+    //                    else
+    //                        cout << "Unknown option in configuration file : " << line << endl ;
+    //                }
+    //            }
+    //        }
+    //    }
 
-        
-        // Load the list containing all images
-        loadListOfImages() ;
+    //    
+    //    // Load the list containing all images
+    //    loadListOfImages() ;
 
-        // Load the datas for Gabor filters
-        if ( mProcessEncoding && mFilenameGaborFilters != "" )
-        {
-            loadGaborFilters() ;
-        }
+    //    // Load the datas for Gabor filters
+    //    if ( mProcessEncoding && mFilenameGaborFilters != "" )
+    //    {
+    //        loadGaborFilters() ;
+    //    }
 
-        // Load the application points
-        if ( mProcessMatching && mFilenameApplicationPoints != "" )
-        {
-            loadApplicationPoints() ;
-        }
-    }
+    //    // Load the application points
+    //    if ( mProcessMatching && mFilenameApplicationPoints != "" )
+    //    {
+    //        loadApplicationPoints() ;
+    //    }
+    //}
 
 
 
-    // Show the configuration of Osiris in prompt command
-    void OsiManager::showConfiguration ( )
-    {
-        cout << "=============" << endl ;
-        cout << "Configuration" << endl ;
-        cout << "=============" << endl ;
-        
-        cout << endl ;
+    //// Show the configuration of Osiris in prompt command
+    //void OsiManager::showConfiguration ( )
+    //{
+    //    cout << "=============" << endl ;
+    //    cout << "Configuration" << endl ;
+    //    cout << "=============" << endl ;
+    //    
+    //    cout << endl ;
 
-        cout << "- Process : " ;
-        if ( mProcessSegmentation )
-        {
-            cout << "| segmentation |" ;
-        }
-        if ( mProcessNormalization )
-        {
-            cout << "| normalization |" ;
-        }
-        if ( mProcessEncoding )
-        {
-            cout << "| encoding |" ;
-        }
-        if ( mProcessMatching )
-        {
-            cout << "| matching |" ;
-        }
-        if ( ! mUseMask )
-        {
-            cout << " do not use osiris masks" ;
-        }
-        cout << endl ;
+    //    cout << "- Process : " ;
+    //    if ( mProcessSegmentation )
+    //    {
+    //        cout << "| segmentation |" ;
+    //    }
+    //    if ( mProcessNormalization )
+    //    {
+    //        cout << "| normalization |" ;
+    //    }
+    //    if ( mProcessEncoding )
+    //    {
+    //        cout << "| encoding |" ;
+    //    }
+    //    if ( mProcessMatching )
+    //    {
+    //        cout << "| matching |" ;
+    //    }
+    //    if ( ! mUseMask )
+    //    {
+    //        cout << " do not use osiris masks" ;
+    //    }
+    //    cout << endl ;
 
-        cout << "- List of images " << mFilenameListOfImages << " contains " << mListOfImages.size() << " images" << endl ;
-        
-        cout << endl ;
+    //    cout << "- List of images " << mFilenameListOfImages << " contains " << mListOfImages.size() << " images" << endl ;
+    //    
+    //    cout << endl ;
 
-        if ( mInputDirOriginalImages != "" )
-        {
-            cout << "- Original images will be loaded from : " << mInputDirOriginalImages << endl ;
-        }
-        if ( mInputDirMasks != "" )
-        {
-            cout << "- Masks will be loaded from : " << mInputDirMasks << endl ;
-        }
-        if ( mInputDirParameters != "" )
-        {
-            cout << "- Parameters will be loaded from : " << mInputDirParameters << endl ;
-        }
-        if ( mInputDirNormalizedImages != "" )
-        {
-            cout << "- Normalized images will be loaded from : " << mInputDirNormalizedImages << endl ;
-        }
-        if ( mInputDirNormalizedMasks != "" )
-        {
-            cout << "- Normalized masks will be loaded from : " << mInputDirNormalizedMasks << endl ;
-        }
-        if ( mInputDirIrisCodes != "" )
-        {
-            cout << "- Iris codes will be loaded from : " << mInputDirIrisCodes << endl ;
-        }
+    //    if ( mInputDirOriginalImages != "" )
+    //    {
+    //        cout << "- Original images will be loaded from : " << mInputDirOriginalImages << endl ;
+    //    }
+    //    if ( mInputDirMasks != "" )
+    //    {
+    //        cout << "- Masks will be loaded from : " << mInputDirMasks << endl ;
+    //    }
+    //    if ( mInputDirParameters != "" )
+    //    {
+    //        cout << "- Parameters will be loaded from : " << mInputDirParameters << endl ;
+    //    }
+    //    if ( mInputDirNormalizedImages != "" )
+    //    {
+    //        cout << "- Normalized images will be loaded from : " << mInputDirNormalizedImages << endl ;
+    //    }
+    //    if ( mInputDirNormalizedMasks != "" )
+    //    {
+    //        cout << "- Normalized masks will be loaded from : " << mInputDirNormalizedMasks << endl ;
+    //    }
+    //    if ( mInputDirIrisCodes != "" )
+    //    {
+    //        cout << "- Iris codes will be loaded from : " << mInputDirIrisCodes << endl ;
+    //    }
 
-        cout << endl ;
+    //    cout << endl ;
 
-        if ( mProcessSegmentation && mOutputDirSegmentedImages != "" )
-        {
-            cout << "- Segmented images will be saved as : " << mOutputDirSegmentedImages  << "XXX" << mSuffixSegmentedImages << endl ;
-        }
-        if ( mProcessSegmentation && mOutputDirParameters != "" )
-        {
-            cout << "- Parameters will be saved as : " << mOutputDirParameters << "XXX" << mSuffixParameters << endl ;
-        }
-        if ( mProcessSegmentation && mOutputDirMasks != "" )
-        {
-            cout << "- Masks will be saved as : " << mOutputDirMasks << "XXX" << mSuffixMasks << endl ;
-        }
-        if ( mProcessNormalization && mOutputDirNormalizedImages != "" )
-        {
-            cout << "- Normalized images will be saved as : " << mOutputDirNormalizedImages << "XXX" << mSuffixNormalizedImages << endl ;
-        }
-        if ( mProcessNormalization && mOutputDirNormalizedMasks != "" )
-        {
-            cout << "- Normalized masks will be saved as : " << mOutputDirNormalizedMasks << "XXX" << mSuffixNormalizedMasks << endl ;
-        }
-        if ( mProcessEncoding && mOutputDirIrisCodes != "" )
-        {
-            cout << "- Iris codes will be saved as : " << mOutputDirIrisCodes << "XXX" << mSuffixIrisCodes << endl ;
-        }
-        if ( mProcessMatching && mOutputFileMatchingScores != "" )
-        {
-            cout << "- Matching scores will be saved in : " << mOutputFileMatchingScores << endl ;
-        }
+    //    if ( mProcessSegmentation && mOutputDirSegmentedImages != "" )
+    //    {
+    //        cout << "- Segmented images will be saved as : " << mOutputDirSegmentedImages  << "XXX" << mSuffixSegmentedImages << endl ;
+    //    }
+    //    if ( mProcessSegmentation && mOutputDirParameters != "" )
+    //    {
+    //        cout << "- Parameters will be saved as : " << mOutputDirParameters << "XXX" << mSuffixParameters << endl ;
+    //    }
+    //    if ( mProcessSegmentation && mOutputDirMasks != "" )
+    //    {
+    //        cout << "- Masks will be saved as : " << mOutputDirMasks << "XXX" << mSuffixMasks << endl ;
+    //    }
+    //    if ( mProcessNormalization && mOutputDirNormalizedImages != "" )
+    //    {
+    //        cout << "- Normalized images will be saved as : " << mOutputDirNormalizedImages << "XXX" << mSuffixNormalizedImages << endl ;
+    //    }
+    //    if ( mProcessNormalization && mOutputDirNormalizedMasks != "" )
+    //    {
+    //        cout << "- Normalized masks will be saved as : " << mOutputDirNormalizedMasks << "XXX" << mSuffixNormalizedMasks << endl ;
+    //    }
+    //    if ( mProcessEncoding && mOutputDirIrisCodes != "" )
+    //    {
+    //        cout << "- Iris codes will be saved as : " << mOutputDirIrisCodes << "XXX" << mSuffixIrisCodes << endl ;
+    //    }
+    //    if ( mProcessMatching && mOutputFileMatchingScores != "" )
+    //    {
+    //        cout << "- Matching scores will be saved in : " << mOutputFileMatchingScores << endl ;
+    //    }
 
-        cout << endl ;
+    //    cout << endl ;
 
-        if ( mProcessSegmentation )
-        {
-            cout << "- Pupil diameter ranges from " << mMinPupilDiameter << " to " << mMaxPupilDiameter << endl ;
-            cout << "- Iris diameter ranges from " << mMinIrisDiameter << " to " << mMaxIrisDiameter << endl ;
-        }
+    //    if ( mProcessSegmentation )
+    //    {
+    //        cout << "- Pupil diameter ranges from " << mMinPupilDiameter << " to " << mMaxPupilDiameter << endl ;
+    //        cout << "- Iris diameter ranges from " << mMinIrisDiameter << " to " << mMaxIrisDiameter << endl ;
+    //    }
 
-        if ( mProcessNormalization || mProcessMatching || mProcessEncoding )
-        {
-            cout << "- Size of normalized iris is " << mWidthOfNormalizedIris << " x " << mHeightOfNormalizedIris << endl ;
-        }
-        
-        cout << endl ;
+    //    if ( mProcessNormalization || mProcessMatching || mProcessEncoding )
+    //    {
+    //        cout << "- Size of normalized iris is " << mWidthOfNormalizedIris << " x " << mHeightOfNormalizedIris << endl ;
+    //    }
+    //    
+    //    cout << endl ;
 
-        if ( mProcessEncoding && mGaborFilters.size() )
-        {
-            cout << "- " << mGaborFilters.size() << " Gabor filters : " ;
-            for ( int f = 0 ; f < mGaborFilters.size() ; f++ )
-                cout << mGaborFilters[f]->rows << "x" << mGaborFilters[f]->cols << " " ;
-            cout << endl ;
-        }
+    //    if ( mProcessEncoding && mGaborFilters.size() )
+    //    {
+    //        cout << "- " << mGaborFilters.size() << " Gabor filters : " ;
+    //        for ( int f = 0 ; f < mGaborFilters.size() ; f++ )
+    //            cout << mGaborFilters[f]->rows << "x" << mGaborFilters[f]->cols << " " ;
+    //        cout << endl ;
+    //    }
 
-        if ( mProcessMatching && mpApplicationPoints )
-        {
-            double max_val ;
-            cvMinMaxLoc(mpApplicationPoints,0,&max_val) ;
-            cout << "- " << cvSum(mpApplicationPoints).val[0]/max_val << " application points" << endl ;
-        }
+    //    if ( mProcessMatching && mpApplicationPoints )
+    //    {
+    //        double max_val ;
+    //        cvMinMaxLoc(mpApplicationPoints,0,&max_val) ;
+    //        cout << "- " << cvSum(mpApplicationPoints).val[0]/max_val << " application points" << endl ;
+    //    }
 
-    } // end of function
+    //} // end of function
 
 
 
@@ -402,10 +382,6 @@ namespace osiris
         file.close() ;
 
     } // end of function
-
-
-
-
 
     // Load the application points (build a binary matrix) from a textfile
     void OsiManager::loadApplicationPoints ( )
@@ -455,31 +431,25 @@ namespace osiris
 
     } // end of function
 
+    //// Load the application points from a textfile
+    //void OsiManager::loadListOfImages ( )
+    //{
+    //    // Open the file
+    //    ifstream file(mFilenameListOfImages.c_str(),ios::in) ;
 
+    //    // If file is not opened
+    //    if ( ! file )
+    //    {
+    //        throw runtime_error("Cannot load the list of images in " + mFilenameListOfImages) ;
+    //    }
 
+    //    // Fill in the list
+    //    copy(istream_iterator<string>(file),istream_iterator<string>(),back_inserter(mListOfImages)) ;
 
+    //    // Close the file
+    //    file.close() ;
 
-
-
-    // Load the application points from a textfile
-    void OsiManager::loadListOfImages ( )
-    {
-        // Open the file
-        ifstream file(mFilenameListOfImages.c_str(),ios::in) ;
-
-        // If file is not opened
-        if ( ! file )
-        {
-            throw runtime_error("Cannot load the list of images in " + mFilenameListOfImages) ;
-        }
-
-        // Fill in the list
-        copy(istream_iterator<string>(file),istream_iterator<string>(),back_inserter(mListOfImages)) ;
-
-        // Close the file
-        file.close() ;
-
-    } // end of function
+    //} // end of function
 
 
 
@@ -487,278 +457,367 @@ namespace osiris
 
 
     // Load, segment, normalize, encode, and save according to user configuration
-    void OsiManager::processOneEye ( const string & rFileName , OsiEye & rEye )
-    {
-        //cout << "Process " << rFileName << endl ;
+    //void OsiManager::processOneEye ( const string & rFileName , OsiEye & rEye )
+    //{
+    //    //cout << "Process " << rFileName << endl ;
 
-        // Strings handle
-        OsiStringUtils osu ;
+    //    // Strings handle
+    //    OsiStringUtils osu ;
 
-        // Get eye name
-        string short_name = osu.extractFileName(rFileName) ;
+    //    // Get eye name
+    //    string short_name = osu.extractFileName(rFileName) ;
 
-        // Load original image only if segmentation or normalization is requested
-        if ( mProcessSegmentation || mProcessNormalization )
+    //    // Load original image only if segmentation or normalization is requested
+    //    if ( mProcessSegmentation || mProcessNormalization )
+    //    {
+    //        if ( mInputDirOriginalImages != "" )
+    //        {
+    //            rEye.loadOriginalImage(mInputDirOriginalImages+rFileName) ;                
+    //        }
+    //        else
+    //        {
+    //            throw runtime_error("Cannot segmente/normalize without loading original image") ;
+    //        }
+    //    }
+
+
+
+
+    //    /////////////////////////////////////////////////////////////////
+    //    // SEGMENTATION : process, load
+    //    /////////////////////////////////////////////////////////////////
+
+    //    // Segmentation step
+    //    if ( mProcessSegmentation )
+    //    {
+    //        rEye.segment(mMinIrisDiameter,mMinPupilDiameter,mMaxIrisDiameter,mMaxPupilDiameter) ;
+
+    //        // Save segmented image
+    //        if ( mOutputDirSegmentedImages != "" )
+    //        {
+    //            rEye.saveSegmentedImage(mOutputDirSegmentedImages+short_name+mSuffixSegmentedImages) ;
+    //        }
+
+    //        // If user don't want to use the mask provided by Osiris
+    //        if ( ! mUseMask )
+    //        {
+    //            rEye.initMask() ;
+    //        }
+    //    }
+
+    //    // Load parameters
+    //    if ( mInputDirParameters != "" )
+    //    {
+    //        rEye.loadParameters(mInputDirParameters+short_name+mSuffixParameters) ;
+    //    }
+
+    //    // Load mask
+    //    if ( mInputDirMasks != "" )
+    //    {
+    //        rEye.loadMask(mInputDirMasks+short_name+mSuffixMasks) ;
+    //    }
+
+
+
+
+
+    //    /////////////////////////////////////////////////////////////////
+    //    // NORMALIZATION : process, load
+    //    /////////////////////////////////////////////////////////////////
+
+    //    // Normalization step
+    //    if ( mProcessNormalization )
+    //    {
+    //        rEye.normalize(mWidthOfNormalizedIris,mHeightOfNormalizedIris) ;
+    //    }
+
+    //    // Load normalized image
+    //    if ( mInputDirNormalizedImages != "" )
+    //    {
+    //        rEye.loadNormalizedImage(mInputDirNormalizedImages+short_name+mSuffixNormalizedImages) ;
+    //    }
+
+    //    // Load normalized mask
+    //    if ( mInputDirNormalizedMasks != "" )
+    //    {
+    //        rEye.loadNormalizedMask(mInputDirNormalizedMasks+short_name+mSuffixNormalizedMasks) ;
+    //    }        
+
+
+
+    //    /////////////////////////////////////////////////////////////////
+    //    // ENCODING : process, load
+    //    /////////////////////////////////////////////////////////////////
+
+    //    // Encoding step
+    //    if ( mProcessEncoding )
+    //    {
+    //        rEye.encode(mGaborFilters) ;
+    //    }
+
+    //    // Load iris code
+    //    if ( mInputDirIrisCodes != "" )
+    //    {
+    //        rEye.loadIrisCode(mInputDirIrisCodes+short_name+mSuffixIrisCodes) ;
+    //    }
+
+
+
+    //    /////////////////////////////////////////////////////////////////
+    //    // SAVE
+    //    /////////////////////////////////////////////////////////////////
+
+    //    // Save parameters
+    //    if ( mOutputDirParameters != "" )
+    //    {
+    //        if ( ! mProcessSegmentation && ( mInputDirParameters == "" ) )
+    //        {
+    //            cout << "Cannot save parameters because they are neither computed nor loaded" << endl ;
+    //        }
+    //        else
+    //        {
+    //            rEye.saveParameters(mOutputDirParameters+short_name+mSuffixParameters) ;
+    //        }
+    //    }
+
+    //    // Save mask
+    //    if ( mOutputDirMasks != "" )
+    //    {
+    //        if ( ! mProcessSegmentation && ( mInputDirMasks == "" ) )
+    //        {
+    //            cout << "Cannot save masks because they are neither computed nor loaded" << endl ;
+    //        }
+    //        else
+    //        {
+    //            rEye.saveMask(mOutputDirMasks+short_name+mSuffixMasks) ;
+    //        }
+    //    }
+
+    //    // Save normalized image
+    //    if ( mOutputDirNormalizedImages != "" )
+    //    {
+    //        if ( ! mProcessNormalization && ( mInputDirNormalizedImages == "" ) )
+    //        {
+    //            cout << "Cannot save normalized images because they are neither computed nor loaded" << endl ;
+    //        }
+    //        else
+    //        {
+    //            rEye.saveNormalizedImage(mOutputDirNormalizedImages+short_name+mSuffixNormalizedImages) ;
+    //        }
+    //        
+    //    }
+
+    //    // Save normalized mask
+    //    if ( mOutputDirNormalizedMasks != "" )
+    //    {
+    //        if ( ! mProcessNormalization && ( mInputDirNormalizedMasks == "" ) )
+    //        {
+    //            cout << "Cannot save normalized masks because they are neither computed nor loaded" << endl ;
+    //        }
+    //        else
+    //        {
+    //            rEye.saveNormalizedMask(mOutputDirNormalizedMasks+short_name+mSuffixNormalizedMasks) ;
+    //        }            
+    //    }
+
+    //    // Save iris code
+    //    if ( mOutputDirIrisCodes != "" )
+    //    {
+    //        if ( ! mProcessEncoding && ( mInputDirIrisCodes == "" ) )
+    //        {
+    //            cout << "Cannot save iris codes because they are neither computed nor loaded" << endl ;
+    //        }
+    //        else
+    //        {
+    //            rEye.saveIrisCode(mOutputDirIrisCodes+short_name+mSuffixIrisCodes) ;                
+    //        }    
+    //    }
+
+    //} // end of function
+
+	int OsiManager::processEye ( const string & rFileName , OsiEye & rEye )
+	{
+		// Strings handle
+		OsiStringUtils osu ;
+
+		// Get eye name
+		string short_name = osu.extractFileName(rFileName);
+
+		//rEye.loadOriginalImage(mInputDirOriginalImages+rFileName); 
+		rEye.loadOriginalImage(rFileName);
+
+		/////////////////////////////////////////////////////////////////
+		// SEGMENTATION : process, load
+
+		 rEye.segment(mMinIrisDiameter,mMinPupilDiameter,mMaxIrisDiameter,mMaxPupilDiameter) ;
+
+
+		// Save segmented image
+		rEye.saveSegmentedImage(mOutputDirSegmentedImages+short_name+mSuffixSegmentedImages) ;
+
+		/////////////////////////////////////////////////////////////////
+		// NORMALIZATION : process, load
+
+		rEye.normalize(mWidthOfNormalizedIris,mHeightOfNormalizedIris) ;
+
+		/////////////////////////////////////////////////////////////////
+		// ENCODING : process, load
+
+		rEye.encode(mGaborFilters) ;
+
+		/////////////////////////////////////////////////////////////////
+		// SAVE
+
+		// Save parameters
+		rEye.saveParameters(mOutputDirParameters+short_name+mSuffixParameters) ;
+
+		// Save mask
+		rEye.saveMask(mOutputDirMasks+short_name+mSuffixMasks) ;
+
+		// Save normalized image
+		rEye.saveNormalizedImage(mOutputDirNormalizedImages+short_name+mSuffixNormalizedImages) ;
+
+		// Save normalized mask
+		rEye.saveNormalizedMask(mOutputDirNormalizedMasks+short_name+mSuffixNormalizedMasks) ;
+
+		// Save iris code
+		rEye.saveIrisCode(mOutputDirIrisCodes+short_name+mSuffixIrisCodes) ;  
+
+		return 0;
+	} // end of function
+
+	int OsiManager::loadEye ( const string & rFileName , OsiEye & rEye )
+	{
+		OsiStringUtils osu ;
+		string short_name = osu.extractFileName(rFileName) ;
+
+		// Load normalized mask
+		 rEye.loadNormalizedMask(mOutputDirNormalizedMasks+short_name+mSuffixNormalizedMasks) ;
+	
+		// Load iris code
+		rEye.loadIrisCode(mOutputDirIrisCodes+short_name+mSuffixIrisCodes) ;
+
+		return 0;
+	} // end of function
+
+	void OsiManager::process(string filename)
+	{
+		try
         {
-            if ( mInputDirOriginalImages != "" )
-            {
-                rEye.loadOriginalImage(mInputDirOriginalImages+rFileName) ;                
-            }
-            else
-            {
-                throw runtime_error("Cannot segmente/normalize without loading original image") ;
-            }
+			OsiEye eye ;
+
+			processEye(filename, eye) ;  
+		}
+        catch ( exception & e )
+        {
+            cout << e.what() << endl ;                
+        }
+	}
+
+	float OsiManager::match(string filename1, string filename2)
+	{
+		float val = 0;
+
+		try
+		{
+			OsiEye eye1, eye2 ;
+
+			loadEye(filename1, eye1) ;  
+			loadEye(filename2, eye2) ; 
+
+			val = eye1.match(eye2, mpApplicationPoints);
+		}
+        catch ( exception & e )
+        {
+            cout << e.what() << endl ;                
         }
 
+		return val;
+	}
 
+    //// Run osiris
+    //void OsiManager::run ( )
+    //{
+    //    cout << endl ;
+    //    cout << "================" << endl ;
+    //    cout << "Start processing" << endl ;
+    //    cout << "================" << endl ;
+    //    cout << endl ;
 
+    //    // If matching is requested, create a file
+    //    ofstream result_matching ;
+    //    if ( mProcessMatching && mOutputFileMatchingScores != "" )
+    //    {
+    //        try 
+    //        {
+    //            result_matching.open(mOutputFileMatchingScores.c_str(),ios::out) ;
+    //        }
+    //        catch ( exception & e )
+    //        {
+    //            cout << e.what() << endl ;
+    //            throw runtime_error("Cannot create the file for matching scores : " + mOutputFileMatchingScores) ;
+    //        }
+    //    }
 
-        /////////////////////////////////////////////////////////////////
-        // SEGMENTATION : process, load
-        /////////////////////////////////////////////////////////////////
+    //    for ( int i = 0 ; i < mListOfImages.size() ; i++ )
+    //    {
+    //        // Message on prompt command to know the progress
+    //        cout << i+1 << " / " << mListOfImages.size() << endl ;
 
-        // Segmentation step
-        if ( mProcessSegmentation )
-        {
-            rEye.segment(mMinIrisDiameter,mMinPupilDiameter,mMaxIrisDiameter,mMaxPupilDiameter) ;
+    //        try
+    //        {
+    //            // Process the eye
+    //            OsiEye eye ;
+    //            processOneEye(mListOfImages[i],eye) ;            
 
-            // Save segmented image
-            if ( mOutputDirSegmentedImages != "" )
-            {
-                rEye.saveSegmentedImage(mOutputDirSegmentedImages+short_name+mSuffixSegmentedImages) ;
-            }
+    //            // Process a second eye if matching is requested
+    //            if ( mProcessMatching && (i<mListOfImages.size()-1) )
+    //            {
+    //                i++ ;
+    //                cout << i+1 << " / " << mListOfImages.size() << endl ;
+    //                OsiEye eye2 ;
+    //                processOneEye(mListOfImages[i],eye2) ;
 
-            // If user don't want to use the mask provided by Osiris
-            if ( ! mUseMask )
-            {
-                rEye.initMask() ;
-            }
-        }
+    //                // Match the two iris codes
+    //                float score = eye.match(eye2,mpApplicationPoints) ;
 
-        // Load parameters
-        if ( mInputDirParameters != "" )
-        {
-            rEye.loadParameters(mInputDirParameters+short_name+mSuffixParameters) ;
-        }
+    //                // Save in file
+    //                if ( result_matching )
+    //                {                    
+    //                    try
+    //                    {
+    //                        result_matching << mListOfImages[i-1] << " " ;
+    //                        result_matching << mListOfImages[i] << " " ;
+    //                        result_matching << score << endl ;
+    //                    }
+    //                    catch ( exception & e )
+    //                    {
+    //                        cout << e.what() << endl ;
+    //                        throw runtime_error("Error while saving result of matching in " + mOutputFileMatchingScores) ;
+    //                    }
+    //                }
+    //            }
+    //        }
 
-        // Load mask
-        if ( mInputDirMasks != "" )
-        {
-            rEye.loadMask(mInputDirMasks+short_name+mSuffixMasks) ;
-        }
+    //        catch ( exception & e )
+    //        {
+    //            cout << e.what() << endl ;                
+    //        }
 
+    //    } // end for images
 
+    //    // If matching is requested, close the file
+    //    if ( result_matching )
+    //    {
+    //        result_matching.close() ;
+    //    }
 
+    //    cout << endl ;
+    //    cout << "==============" << endl ;
+    //    cout << "End processing" << endl ;
+    //    cout << "==============" << endl ;
+    //    cout << endl ;
 
-
-        /////////////////////////////////////////////////////////////////
-        // NORMALIZATION : process, load
-        /////////////////////////////////////////////////////////////////
-
-        // Normalization step
-        if ( mProcessNormalization )
-        {
-            rEye.normalize(mWidthOfNormalizedIris,mHeightOfNormalizedIris) ;
-        }
-
-        // Load normalized image
-        if ( mInputDirNormalizedImages != "" )
-        {
-            rEye.loadNormalizedImage(mInputDirNormalizedImages+short_name+mSuffixNormalizedImages) ;
-        }
-
-        // Load normalized mask
-        if ( mInputDirNormalizedMasks != "" )
-        {
-            rEye.loadNormalizedMask(mInputDirNormalizedMasks+short_name+mSuffixNormalizedMasks) ;
-        }        
-
-
-
-        /////////////////////////////////////////////////////////////////
-        // ENCODING : process, load
-        /////////////////////////////////////////////////////////////////
-
-        // Encoding step
-        if ( mProcessEncoding )
-        {
-            rEye.encode(mGaborFilters) ;
-        }
-
-        // Load iris code
-        if ( mInputDirIrisCodes != "" )
-        {
-            rEye.loadIrisCode(mInputDirIrisCodes+short_name+mSuffixIrisCodes) ;
-        }
-
-
-
-        /////////////////////////////////////////////////////////////////
-        // SAVE
-        /////////////////////////////////////////////////////////////////
-
-        // Save parameters
-        if ( mOutputDirParameters != "" )
-        {
-            if ( ! mProcessSegmentation && ( mInputDirParameters == "" ) )
-            {
-                cout << "Cannot save parameters because they are neither computed nor loaded" << endl ;
-            }
-            else
-            {
-                rEye.saveParameters(mOutputDirParameters+short_name+mSuffixParameters) ;
-            }
-        }
-
-        // Save mask
-        if ( mOutputDirMasks != "" )
-        {
-            if ( ! mProcessSegmentation && ( mInputDirMasks == "" ) )
-            {
-                cout << "Cannot save masks because they are neither computed nor loaded" << endl ;
-            }
-            else
-            {
-                rEye.saveMask(mOutputDirMasks+short_name+mSuffixMasks) ;
-            }
-        }
-
-        // Save normalized image
-        if ( mOutputDirNormalizedImages != "" )
-        {
-            if ( ! mProcessNormalization && ( mInputDirNormalizedImages == "" ) )
-            {
-                cout << "Cannot save normalized images because they are neither computed nor loaded" << endl ;
-            }
-            else
-            {
-                rEye.saveNormalizedImage(mOutputDirNormalizedImages+short_name+mSuffixNormalizedImages) ;
-            }
-            
-        }
-
-        // Save normalized mask
-        if ( mOutputDirNormalizedMasks != "" )
-        {
-            if ( ! mProcessNormalization && ( mInputDirNormalizedMasks == "" ) )
-            {
-                cout << "Cannot save normalized masks because they are neither computed nor loaded" << endl ;
-            }
-            else
-            {
-                rEye.saveNormalizedMask(mOutputDirNormalizedMasks+short_name+mSuffixNormalizedMasks) ;
-            }            
-        }
-
-        // Save iris code
-        if ( mOutputDirIrisCodes != "" )
-        {
-            if ( ! mProcessEncoding && ( mInputDirIrisCodes == "" ) )
-            {
-                cout << "Cannot save iris codes because they are neither computed nor loaded" << endl ;
-            }
-            else
-            {
-                rEye.saveIrisCode(mOutputDirIrisCodes+short_name+mSuffixIrisCodes) ;                
-            }    
-        }
-
-    } // end of function
-
-
-
-
-
-
-
-
-
-
-    // Run osiris
-    void OsiManager::run ( )
-    {
-        cout << endl ;
-        cout << "================" << endl ;
-        cout << "Start processing" << endl ;
-        cout << "================" << endl ;
-        cout << endl ;
-
-        // If matching is requested, create a file
-        ofstream result_matching ;
-        if ( mProcessMatching && mOutputFileMatchingScores != "" )
-        {
-            try 
-            {
-                result_matching.open(mOutputFileMatchingScores.c_str(),ios::out) ;
-            }
-            catch ( exception & e )
-            {
-                cout << e.what() << endl ;
-                throw runtime_error("Cannot create the file for matching scores : " + mOutputFileMatchingScores) ;
-            }
-        }
-
-        for ( int i = 0 ; i < mListOfImages.size() ; i++ )
-        {
-            // Message on prompt command to know the progress
-            cout << i+1 << " / " << mListOfImages.size() << endl ;
-
-            try
-            {
-                // Process the eye
-                OsiEye eye ;
-                processOneEye(mListOfImages[i],eye) ;            
-
-                // Process a second eye if matching is requested
-                if ( mProcessMatching && (i<mListOfImages.size()-1) )
-                {
-                    i++ ;
-                    cout << i+1 << " / " << mListOfImages.size() << endl ;
-                    OsiEye eye2 ;
-                    processOneEye(mListOfImages[i],eye2) ;
-
-                    // Match the two iris codes
-                    float score = eye.match(eye2,mpApplicationPoints) ;
-
-                    // Save in file
-                    if ( result_matching )
-                    {                    
-                        try
-                        {
-                            result_matching << mListOfImages[i-1] << " " ;
-                            result_matching << mListOfImages[i] << " " ;
-                            result_matching << score << endl ;
-                        }
-                        catch ( exception & e )
-                        {
-                            cout << e.what() << endl ;
-                            throw runtime_error("Error while saving result of matching in " + mOutputFileMatchingScores) ;
-                        }
-                    }
-                }
-            }
-
-            catch ( exception & e )
-            {
-                cout << e.what() << endl ;                
-            }
-
-        } // end for images
-
-        // If matching is requested, close the file
-        if ( result_matching )
-        {
-            result_matching.close() ;
-        }
-
-        cout << endl ;
-        cout << "==============" << endl ;
-        cout << "End processing" << endl ;
-        cout << "==============" << endl ;
-        cout << endl ;
-
-    } // end of function
+    //} // end of function
 
 } // end of namespace
-
-
