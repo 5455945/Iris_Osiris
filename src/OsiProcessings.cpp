@@ -6,9 +6,11 @@
 * License : BSD
 ********************************************************/
 
-#include "cv.h"
+#include "cv.hpp"
+#include "opencv2/opencv.hpp"
 #include "OsiStringUtils.h"
 #include "OsiProcessings.h"
+
 
 using namespace std ;
 
@@ -296,18 +298,23 @@ namespace osiris
         cvReleaseStructuringElement(&struct_element) ;
 
         // Compute the mean and the variance of iris texture inside safe area
-        double iris_mean = cvMean(pSrc,safe_area) ;
+        //double iris_mean = cvMean(pSrc,safe_area) ;
+		CvScalar iris_mean = cvAvg(pSrc, safe_area);
         IplImage * variance = cvCreateImage(cvGetSize(pSrc),IPL_DEPTH_32F,1) ;
         cvConvert(pSrc,variance) ;
-        cvSubS(variance,cvScalar(iris_mean),variance,safe_area) ;
+        //cvSubS(variance,cvScalar(iris_mean),variance,safe_area) ;
+		cvSubS(variance, iris_mean, variance, safe_area);
         cvMul(variance,variance,variance) ;
-        double iris_variance = sqrt(cvMean(variance,safe_area)) ;        
+        //double iris_variance = sqrt(cvMean(variance,safe_area)) ;
+		CvScalar irisvariance = cvAvg(variance, safe_area);
+		double iris_variance = sqrt(irisvariance.val[0]);
         cvReleaseImage(&variance) ;
         cvReleaseImage(&safe_area) ;
 
         // Build mask of noise : |I-mean| > 2.35 * variance
         IplImage * mask_noise = cvCloneImage(pSrc) ;
-        cvAbsDiffS(pSrc,mask_noise,cvScalar(iris_mean)) ;
+        //cvAbsDiffS(pSrc,mask_noise,cvScalar(iris_mean)) ;
+		cvAbsDiffS(pSrc, mask_noise, iris_mean);
         cvThreshold(mask_noise,mask_noise,2.35*iris_variance,255,CV_THRESH_BINARY) ;
         cvAnd(mask_iris,mask_noise,mask_noise) ;
 

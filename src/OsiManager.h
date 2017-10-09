@@ -11,8 +11,10 @@
 
 #include <iostream>
 #include <vector>
+#include <map>
 #include "highgui.h"
 #include "OsiEye.h"
+
 
 namespace osiris
 {
