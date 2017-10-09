@@ -6,11 +6,9 @@
 * License : BSD
 ********************************************************/
 
-#include "cv.hpp"
-#include "opencv2/opencv.hpp"
+#include "cv.h"
 #include "OsiStringUtils.h"
 #include "OsiProcessings.h"
-
 
 using namespace std ;
 
@@ -306,8 +304,8 @@ namespace osiris
 		cvSubS(variance, iris_mean, variance, safe_area);
         cvMul(variance,variance,variance) ;
         //double iris_variance = sqrt(cvMean(variance,safe_area)) ;
-		CvScalar irisvariance = cvAvg(variance, safe_area);
-		double iris_variance = sqrt(irisvariance.val[0]);
+		CvScalar imean = cvAvg(variance, safe_area);
+		double iris_variance = sqrt(imean.val[0]);
         cvReleaseImage(&variance) ;
         cvReleaseImage(&safe_area) ;
 

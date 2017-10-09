@@ -13,19 +13,12 @@ using namespace std ;
 
 namespace osiris
 {
-
-    // CONSTRUCTORS & DESTRUCTORS
-    /////////////////////////////
-
-
     OsiCircle::OsiCircle()
     {
-        // Do nothing
     }
 
     OsiCircle::~OsiCircle()
     {
-        // Do nothing
     }
 
     OsiCircle::OsiCircle ( const CvPoint & rCenter , int rRadius )
@@ -33,13 +26,6 @@ namespace osiris
         setCenter(rCenter) ;
         setRadius(rRadius) ;
     }
-
-
-
-
-    // ACCESSORS
-    ////////////
-
 
     CvPoint OsiCircle::getCenter ( ) const
     {
@@ -76,19 +62,10 @@ namespace osiris
         setCircle(cvPoint(rCenterX,rCenterY),rRadius) ;
     }
 
-
-
-
-
-    // OPERATORS
-    ////////////
-
-
     void OsiCircle::drawCircle ( IplImage * pImage , const CvScalar & rColor , int thickness )
     {
         cvCircle(pImage,mCenter,mRadius,rColor,thickness) ;
     }
-
 
     void OsiCircle::computeCircleFitting ( const vector<CvPoint> & rPoints )
     {
@@ -127,9 +104,4 @@ namespace osiris
         setCenter(cvPoint(uc+mx,vc+my)) ;
         setRadius((int)(sqrt(uc*uc+vc*vc+(suu+svv)/rPoints.size()))) ;
     }
-
-
-
-
 } // end of namespace
-
