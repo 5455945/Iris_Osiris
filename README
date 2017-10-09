@@ -1,0 +1,53 @@
+###########################################################
+######## Reference System based on iris modality ##########
+###########################################################
+###################### BioSecure ##########################
+####################### OSIRIS  ###########################
+###########################################################
+######## Fourth official version 4.1 - 25/04/2013 ########
+###########################################################
+
+What can you find here?
+-----------------------
+
+- the BioSecure reference system (source code, text files 
+and script) used to make a full recognition experiment 
+based on iris modality.
+- a documentation which explains how to use the system.
+
+
+First step
+----------
+
+To begin, I advise you to read the document stored in 
+/doc directory.
+
+
+Short description of each directory
+-----------------------------------
+
+- doc: documentation which explains how to install and 
+use the reference system.
+
+- download: reference system in the form of compressed 
+file (tar.gz) to download it.
+
+- OsirisParam: text files required by the modules 'encoding and matching'.
+
+- scores: final scores obtained on the ICE database in 
+accordance with the protocol defined in /doc/howTo.
+
+- scripts: examples of scripts used:
+Template/ : Segmentation, Normalization and Encoding steps
+Matching/ : Matching step
+
+- src: source code of the reference system.
+
+
+
+Questions
+---------
+
+If you have questions about the use of the reference system, 
+you can contact the next person:
+OTHMAN Nadia : nadia.othman@telecom-sudparis.eu
