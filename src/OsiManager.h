@@ -43,11 +43,11 @@ namespace osiris
         ~OsiManager ( ) ;
 
         /** Load configuration from a text file.
-        * @param rFilename The relative path to the filename (relative to the executable)
+        * @param sFilePath The path to the configuration file
         * @return void
         * @see showConfiguration()
         */
-        void loadConfiguration ( const std::string & rFilename = "configuration.ini" ) ;
+        void loadConfiguration ( const std::string & sConfigPath = "../data/" ) ;
 
         /** Show configuration in prompt command.
         * @see initConfiguration()

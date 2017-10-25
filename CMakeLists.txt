@@ -26,4 +26,16 @@ if (OpenCV_FOUND)
 else()
   message("OpenCV not found, so we won't build the Osiris.")
 endif()
-		 
+
+if (MSVC)
+	if(NOT EXISTS "${CMAKE_BINARY_DIR}/ALL_BUILD.vcxproj.user")
+		file(GENERATE
+			OUTPUT "${CMAKE_BINARY_DIR}/ALL_BUILD.vcxproj.user"
+			INPUT "${CMAKE_SOURCE_DIR}/cmake/ALL_BUILD.vcxproj.user.in")
+	endif()
+	if(NOT EXISTS "${CMAKE_BINARY_DIR}/Osiris.vcxproj.user")
+		file(GENERATE
+			OUTPUT "${CMAKE_BINARY_DIR}/Osiris.vcxproj.user"
+			INPUT "${CMAKE_SOURCE_DIR}/cmake/Osiris.vcxproj.user.in")
+	endif()
+endif()

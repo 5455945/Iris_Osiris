@@ -31,7 +31,7 @@ namespace osiris
         mMapBool["Process encoding"] = &mProcessEncoding ;
         mMapBool["Process matching"] = &mProcessMatching ;
         mMapBool["Use the mask provided by osiris"] = &mUseMask ;
-        mMapString["List of images"] = &mFilenameListOfImages ;
+        mMapString["Load List of images"] = &mFilenameListOfImages ;
         mMapString["Load original images"] = &mInputDirOriginalImages ;
         mMapString["Load parameters"] = &mInputDirParameters ;
         mMapString["Load masks"] = &mInputDirMasks ;
@@ -51,8 +51,8 @@ namespace osiris
         mMapInt["Maximum diameter for iris"] = &mMaxIrisDiameter ;
         mMapInt["Width of normalized image"] = &mWidthOfNormalizedIris ;
         mMapInt["Height of normalized image"] = &mHeightOfNormalizedIris ;
-        mMapString["Gabor filters"] = &mFilenameGaborFilters ;
-        mMapString["Application points"] = &mFilenameApplicationPoints ;
+        mMapString["Load Gabor filters"] = &mFilenameGaborFilters ;
+        mMapString["Load Application points"] = &mFilenameApplicationPoints ;
         mMapString["Suffix for segmented images"] = &mSuffixSegmentedImages ;
         mMapString["Suffix for parameters"] = &mSuffixParameters ;
         mMapString["Suffix for masks of iris"] = &mSuffixMasks ;
@@ -155,13 +155,23 @@ namespace osiris
 
 
     // Load the configuration from a textfile (ini)
-    void OsiManager::loadConfiguration ( const string & rFilename )
+    void OsiManager::loadConfiguration ( const string & sConfigPath)
     {
+		string sPath = sConfigPath;
+		if (sPath.length() <= 0) {
+			throw runtime_error("sConfigPath Error: " + sPath);
+		}
+		if (sPath[sPath.length() - 1] != '/' ||
+			sPath[sPath.length() - 1] != '\\'
+			) {
+			sPath += "/";
+		}
+
         // Open the file
-        ifstream file(rFilename.c_str(),ifstream::in) ;
+        ifstream file((sPath + "process.ini").c_str(),ifstream::in) ;
         
         if ( ! file.good() )
-            throw runtime_error("Cannot read configuration file " + rFilename ) ;
+            throw runtime_error("Cannot read configuration file " + sPath + "process.ini") ;
 
         // Some string functions
         OsiStringUtils osu ;
@@ -203,8 +213,15 @@ namespace osiris
                             *mMapInt[key] = osu.fromString<int>(value) ;
 
                         // Option is type string
-                        else if ( mMapString.find(key) != mMapString.end() )
-                            *mMapString[key] = osu.convertSlashes(value) ;
+						else if (mMapString.find(key) != mMapString.end()) {
+							if (key.substr(0, 4).compare("Load") == 0 |
+								key.substr(0, 4).compare("Save") == 0) {
+								*mMapString[key] = sPath + osu.convertSlashes(value);
+							}
+							else {
+								*mMapString[key] = osu.convertSlashes(value);
+							}
+						}  
 
                         // Option is not stored in any mMap
                         else
