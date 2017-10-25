@@ -51,3 +51,100 @@ Questions
 If you have questions about the use of the reference system, 
 you can contact the next person:
 OTHMAN Nadia : nadia.othman@telecom-sudparis.eu
+
+
+Build
+--------
+
+1. Download Iris_Osiris(https://github.com/5455945/Iris_Osiris.git)
+```
+git clone --recursive https://github.com/5455945/Iris_Osiris.git
+```
+
+2. Build Iris_Osiris.
+
+on windows
+```
+cd Iris_Osiris
+
+mkdir build & cd build
+
+cmake -G "Visual Studio 14 2015 Win64" -DOpenCV_DIR="D:/git/opencv/build/v3.3.0/x64/install" ..
+
+cmake --build . --config Release
+
+cmake --build . --config Debug
+
+```
+
+on unix
+```
+cd Iris_Osiris
+
+mkdir build; cd build
+
+cmake -G -DOpenCV_DIR="D:/git/opencv/build/v3.3.0/x64/install" ..
+
+make
+```
+
+3. run
+on windows
+```
+Debug\Osiris.exe ../data
+```
+
+```
+#Output file: ../data/Output
+>Debug\Osiris.exe ../data
+=============
+Configuration
+=============
+
+- Process : | segmentation || normalization || encoding |
+- List of images ../data/process_CASIA-IrisV2.txt contains 8 images
+
+- Original images will be loaded from : ../data/CASIA-IrisV2/
+
+- Segmented images will be saved as : ../data/Output/SegmentedImages/XXX_segm.bmp
+- Parameters will be saved as : ../data/Output/CircleParameters/XXX_para.txt
+- Masks will be saved as : ../data/Output/Masks/XXX_mask.bmp
+- Normalized images will be saved as : ../data/Output/NormalizedImages/XXX_imno.bmp
+- Normalized masks will be saved as : ../data/Output/NormalizedMasks/XXX_mano.bmp
+- Iris codes will be saved as : ../data/Output/IrisCodes/XXX_code.bmp
+
+- Pupil diameter ranges from 50 to 160
+- Iris diameter ranges from 160 to 280
+- Size of normalized iris is 512 x 64
+
+- 6 Gabor filters : 9x15 9x15 9x27 9x27 9x51 9x51
+
+================
+Start processing
+================
+
+1 / 8
+2 / 8
+3 / 8
+4 / 8
+5 / 8
+6 / 8
+7 / 8
+8 / 8
+
+==============
+End processing
+==============
+```
+
+on unix
+```
+Debug/Osiris.exe ../data
+
+#Output file: ../data/Output
+
+```
+
+Update Log
+---
+support OpenCV3.3,OpenCV2.4.13
