@@ -57,19 +57,19 @@ Build
 --------
 
 1. Download Iris_Osiris(https://github.com/5455945/Iris_Osiris.git)
-```
+```bash
 git clone --recursive https://github.com/5455945/Iris_Osiris.git
 ```
 
 2. Build Iris_Osiris.
 
 on windows
-```
+```bash
 cd Iris_Osiris
 
 mkdir build & cd build
 
-cmake -G "Visual Studio 14 2015 Win64" -DOpenCV_DIR="D:/git/opencv/build/v3.3.0/x64/install" ..
+cmake -G "Visual Studio 14 2015 Win64" -DOpenCV_DIR="OpenCV 3.0_Path' or OpenCV 2.4.13 Path" ..
 
 cmake --build . --config Release
 
@@ -78,23 +78,23 @@ cmake --build . --config Debug
 ```
 
 on unix
-```
+```bash
 cd Iris_Osiris
 
 mkdir build; cd build
 
-cmake -G -DOpenCV_DIR="D:/git/opencv/build/v3.3.0/x64/install" ..
+cmake -G -DOpenCV_DIR="OpenCV 3.0_Path' or OpenCV 2.4.13 Path" ..
 
 make
 ```
 
 3. run
 on windows
-```
+```bash
 Debug\Osiris.exe ../data
 ```
 
-```
+```bash
 #Output file: ../data/Output
 >Debug\Osiris.exe ../data
 =============
@@ -138,7 +138,7 @@ End processing
 ```
 
 on unix
-```
+```bash
 Debug/Osiris.exe ../data
 
 #Output file: ../data/Output
