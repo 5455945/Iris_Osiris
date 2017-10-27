@@ -1,3 +1,6 @@
+[![Build Status](https://www.travis-ci.org/5455945/Iris_Osiris.svg?branch=master)](https://www.travis-ci.org/5455945/Iris_Osiris)
+
+
 Build
 ---
 
