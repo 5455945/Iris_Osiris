@@ -2,7 +2,7 @@
 ---
 | **`Linux`** | **`Windows`** |
 |-----------------|---------------------|
-| [![Build Status](https://www.travis-ci.org/5455945/Iris_Osiris.svg?branch=master)](https://www.travis-ci.org/5455945/Iris_Osiris) | [![Build Status](https://ci.appveyor.com/project/5455945/iris-osiris?branch=master&svg=true)](https://ci.appveyor.com/project/5455945/iris-osiris) |
+| [![Build Status](https://www.travis-ci.org/5455945/Iris_Osiris.svg?branch=master)](https://www.travis-ci.org/5455945/Iris_Osiris) | [![Build Status](https://ci.appveyor.com/project/5455945/iris-osiris?branch=master)](https://ci.appveyor.com/project/5455945/iris-osiris?branch=master) |
 
 
 Build
