@@ -1,7 +1,7 @@
-| **`Linux`** | **`Windows CPU`** |
-|-----------------|---------------------|------------------|-------------------|---------------|
-| [![Build Status](https://www.travis-ci.org/5455945/Iris_Osiris.svg?branch=master)](https://www.travis-ci.org/5455945/Iris_Osiris) | 
- |
+---
+| **`Linux`** | **`Windows`** |
+|-----------------|---------------------|
+| [![Build Status](https://www.travis-ci.org/5455945/Iris_Osiris.svg?branch=master)](https://www.travis-ci.org/5455945/Iris_Osiris) | [![Build Status](https://www.travis-ci.org/5455945/Iris_Osiris.svg?branch=master)](https://www.travis-ci.org/5455945/Iris_Osiris) |
 
 Build
 ---
@@ -99,4 +99,6 @@ Update Log
 ---
 support OpenCV3.3,OpenCV2.4.13
 
+---
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)](https://github.com/5455945/Iris_Osiris/blob/master/LICENSE)
+
