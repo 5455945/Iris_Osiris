@@ -1,0 +1,25 @@
+dist: trusty
+sudo: required
+
+language: cpp
+
+git:
+  submodules: false
+
+compiler:
+  - gcc
+  - g++
+
+add_ons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - g++-6
+      - gcc-6
+      - cmake
+
+install:
+  - mkdir Build
+  - pushd Build && cmake .. && make && popd 
+
